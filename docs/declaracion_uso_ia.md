@@ -1,14 +1,13 @@
 # Declaración de uso ético de IA generativa
 
 **Proyecto:** Agente de calidad del aire del Valle de Aburrá (SI3003, EAFIT)
-**Equipo:** David Guerra Morales, Eder Ceballos Quiroz · **Fecha:** _[fecha]_
+**Equipo:** David Guerra Morales, Eder Ceballos Quiroz · **Fecha:** 6 de noviembre de 2026
 
 ## 1. Herramientas de IA generativa usadas durante el desarrollo
 
 | Herramienta | Para qué se usó | Qué hizo el equipo |
 |---|---|---|
 | Claude (Anthropic) | Propuesta de arquitectura modular; borradores de código de los módulos (datos, Naive Bayes en NumPy, RAG, loop agéntico, dashboard), pruebas automáticas y borradores de documentación. | Definió los requisitos y restricciones; revisó, ejecutó y corrigió el código; verificó la matemática del Naive Bayes con pruebas contra cálculos a mano; validó resultados con datos reales; redactó el análisis e interpretación. |
-| _[otra herramienta, si aplica]_ | _[uso]_ | _[revisión]_ |
 
 ## 2. IA generativa como componente del sistema
 
