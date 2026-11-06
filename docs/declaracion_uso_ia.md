@@ -1,7 +1,7 @@
 # Declaración de uso ético de IA generativa
 
 **Proyecto:** Agente de calidad del aire del Valle de Aburrá (SI3003, EAFIT)
-**Equipo:** _[nombres y correos]_ · **Fecha:** _[fecha]_
+**Equipo:** David Guerra Morales, Eder Ceballos Quiroz · **Fecha:** _[fecha]_
 
 ## 1. Herramientas de IA generativa usadas durante el desarrollo
 

@@ -1,6 +1,6 @@
 # Informe técnico — Agente de calidad del aire del Valle de Aburrá
 
-**Curso:** SI3003 Inteligencia Artificial, Universidad EAFIT · **Equipo:** _[nombres]_ · **Repositorio:** github.com/dguemo/FINAL_IA_SI3003
+**Curso:** SI3003 Inteligencia Artificial, Universidad EAFIT · **Equipo:** David Guerra Morales, Eder Ceballos Quiroz · **Repositorio:** github.com/dguemo/FINAL_IA_SI3003
 
 ## 1. Problema
 
