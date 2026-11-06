@@ -1,0 +1,27 @@
+{
+  "_descripcion": "Banco de evaluación del agente. Los marcadores {estacion}, {estacion2}, {fecha}, {fecha_ini} y {fecha_fin} se reemplazan en tiempo de ejecución con valores reales del dataset (ver eval_agent.py). 'herramientas' = todas deben invocarse; 'cita' = la respuesta debe traer [Fuente, p. N]; 'sin_herramientas' = no debe llamar ninguna; 'debe_reportar_error' = la herramienta falla y el agente debe explicarlo sin inventar cifras.",
+  "agente": [
+    {"id": "D1", "categoria": "datos", "pregunta": "¿Cuál fue el PM2.5 promedio en la estación {estacion} el {fecha}?", "herramientas": ["get_pm25"]},
+    {"id": "D2", "categoria": "datos", "pregunta": "Dame un resumen del PM2.5 en {estacion} entre {fecha_ini} y {fecha_fin}: promedio, máximo y cuántos días hubo en cada clase.", "herramientas": ["get_pm25"]},
+    {"id": "D3", "categoria": "datos", "pregunta": "¿Cuál es el dato más reciente disponible de PM2.5 en {estacion2}?", "herramientas": ["get_pm25"]},
+    {"id": "P1", "categoria": "pronóstico", "pregunta": "¿Qué calidad del aire se espera mañana en {estacion}?", "herramientas": ["predict_tomorrow"]},
+    {"id": "P2", "categoria": "pronóstico", "pregunta": "Compara el pronóstico de {estacion} y {estacion2}. ¿Cuál tiene mayor probabilidad de estar en Prevención o Crítico?", "herramientas": ["predict_tomorrow"]},
+    {"id": "N1", "categoria": "normativa", "pregunta": "Según la Resolución 2254 de 2017, ¿cuál es el nivel máximo permisible de PM2.5 para un tiempo de exposición de 24 horas?", "herramientas": ["search_docs"], "cita": true},
+    {"id": "N2", "categoria": "normativa", "pregunta": "¿Qué rangos de concentración de PM2.5 definen los niveles de prevención, alerta y emergencia?", "herramientas": ["search_docs"], "cita": true},
+    {"id": "N3", "categoria": "normativa", "pregunta": "¿Qué medidas contempla el POECA cuando se declara un episodio de contaminación?", "herramientas": ["search_docs"], "cita": true},
+    {"id": "N4", "categoria": "normativa", "pregunta": "¿Cómo se calcula el Índice de Calidad del Aire (ICA) y qué colores tiene?", "herramientas": ["search_docs"], "cita": true},
+    {"id": "M1", "categoria": "multi-herramienta", "pregunta": "¿El PM2.5 de {estacion} el {fecha} superó el límite diario de la norma colombiana? Cita la norma.", "herramientas": ["get_pm25", "search_docs"], "cita": true},
+    {"id": "M2", "categoria": "multi-herramienta", "pregunta": "Si mañana {estacion} queda en la clase pronosticada, ¿qué recomendaciones da la normativa a la población?", "herramientas": ["predict_tomorrow", "search_docs"], "cita": true},
+    {"id": "E1", "categoria": "errores", "pregunta": "¿Cuál fue el PM2.5 en la estación Marte Base Alfa el {fecha}?", "herramientas": ["get_pm25"], "debe_reportar_error": true},
+    {"id": "E2", "categoria": "errores", "pregunta": "¿Cuál fue el PM2.5 en {estacion} el 1990-01-01?", "herramientas": ["get_pm25"], "debe_reportar_error": true},
+    {"id": "F1", "categoria": "fuera de alcance", "pregunta": "¿Me das una receta de arepas de chócolo?", "sin_herramientas": true}
+  ],
+  "rag": [
+    {"id": "R1", "consulta": "nivel máximo permisible PM2.5 24 horas", "palabras_clave": ["37"]},
+    {"id": "R2", "consulta": "niveles de prevención alerta y emergencia PM2.5", "palabras_clave": ["prevención", "alerta", "emergencia"]},
+    {"id": "R3", "consulta": "índice de calidad del aire colores y rangos", "palabras_clave": ["ICA", "índice"]},
+    {"id": "R4", "consulta": "representatividad temporal 75 por ciento de los datos", "palabras_clave": ["75"]},
+    {"id": "R5", "consulta": "medidas del POECA restricción vehicular episodio", "palabras_clave": ["POECA", "episodio", "medidas"]},
+    {"id": "R6", "consulta": "nivel máximo permisible PM2.5 anual", "palabras_clave": ["25", "anual"]}
+  ]
+}

@@ -1,0 +1,304 @@
+{
+  "resumen": {
+    "agente": {
+      "preguntas": 14,
+      "tasa_herramientas_correctas": 1.0,
+      "tasa_citas_en_normativas": 1.0,
+      "anclaje_promedio_cifras": 0.951,
+      "tasa_errores_manejados": 1.0,
+      "fallos_llm": 0,
+      "respuestas_con_citas_no_verificadas": 0,
+      "iteraciones_promedio": 2.36,
+      "max_iteraciones": 4,
+      "latencia_promedio_s": 24.5
+    },
+    "rag": {
+      "consultas": 6,
+      "hit@4": 1.0
+    }
+  },
+  "agente": [
+    {
+      "id": "D1",
+      "categoria": "datos",
+      "pregunta": "¿Cuál fue el PM2.5 promedio en la estación Casa de Justicia el 2024-03-06?",
+      "herramientas_llamadas": [
+        "get_pm25"
+      ],
+      "herramientas_ok": true,
+      "cita_ok": null,
+      "anclaje": 1.0,
+      "citas_no_verificadas": [],
+      "iteraciones": 2,
+      "limite_alcanzado": false,
+      "error_llm": null,
+      "latencia_s": 1.3,
+      "respuesta": "El 6 de marzo de 2024 la estación **Casa de Justicia (Itagüí)** registró un promedio de **PM2.5 de 49.17 µg/m³** en 24 h, lo que corresponde a la **clase de Prevención** (38–55 µg/m³)."
+    },
+    {
+      "id": "D2",
+      "categoria": "datos",
+      "pregunta": "Dame un resumen del PM2.5 en Casa de Justicia entre 2026-10-06 y 2026-11-05: promedio, máximo y cuántos días hubo en cada clase.",
+      "herramientas_llamadas": [
+        "get_pm25"
+      ],
+      "herramientas_ok": true,
+      "cita_ok": null,
+      "anclaje": 1.0,
+      "citas_no_verificadas": [],
+      "iteraciones": 2,
+      "limite_alcanzado": false,
+      "error_llm": null,
+      "latencia_s": 1.8,
+      "respuesta": "**Resumen PM2.5 – Casa de Justicia (Itagüí) 2026‑10‑06 a 2026‑11‑05**\n\n| Indicador | Valor |\n|-----------|-------|\n| **Promedio (24 h)** | **21.7 µg/m³** |\n| **Máximo (24 h)** | **32.0 µg/m³** (el 08 oct 2026) |\n| **Días por clase** | Normal: **30** días · Prevención: **0** días · Crítico: **0** días |\n\n*Clasificación usada:* Normal 0‑37 µg/m³, Prevención 38‑55 µg/m³, Crítico ≥ 56 µg/m³.  \n\nEn el periodo consultado, la calidad del aire se mantuvo dentro de la categoría **Normal** durante todos los días."
+    },
+    {
+      "id": "D3",
+      "categoria": "datos",
+      "pregunta": "¿Cuál es el dato más reciente disponible de PM2.5 en Ciudadela Educativa de la Vida?",
+      "herramientas_llamadas": [
+        "get_pm25"
+      ],
+      "herramientas_ok": true,
+      "cita_ok": null,
+      "anclaje": 1.0,
+      "citas_no_verificadas": [],
+      "iteraciones": 2,
+      "limite_alcanzado": false,
+      "error_llm": null,
+      "latencia_s": 19.8,
+      "respuesta": "El dato más reciente disponible de PM2.5 en la **Ciudadela Educativa de la Vida (Copacabana)** corresponde al **2026‑11‑05** y muestra un promedio de **16 µg/m³** (clase *Normal*)."
+    },
+    {
+      "id": "P1",
+      "categoria": "pronóstico",
+      "pregunta": "¿Qué calidad del aire se espera mañana en Casa de Justicia?",
+      "herramientas_llamadas": [
+        "predict_tomorrow"
+      ],
+      "herramientas_ok": true,
+      "cita_ok": null,
+      "anclaje": 1.0,
+      "citas_no_verificadas": [],
+      "iteraciones": 2,
+      "limite_alcanzado": false,
+      "error_llm": null,
+      "latencia_s": 19.6,
+      "respuesta": "Mañana, 2026‑11‑06, el modelo Naive Bayes pronostica que la calidad del aire en la estación **Casa de Justicia (Itagüí)** será **Clase Normal**.\n\n- Probabilidad de Normal: 98.7 %  \n- Probabilidad de Prevención: 1.3 %  \n- Probabilidad de Crítico: 0 %\n\nEste pronóstico se basa en el modelo estadístico (Gaussian Naive Bayes) y, como todo modelo, lleva implícita cierta incertidumbre. No se detectaron advertencias especiales en la salida."
+    },
+    {
+      "id": "P2",
+      "categoria": "pronóstico",
+      "pregunta": "Compara el pronóstico de Casa de Justicia y Ciudadela Educativa de la Vida. ¿Cuál tiene mayor probabilidad de estar en Prevención o Crítico?",
+      "herramientas_llamadas": [
+        "predict_tomorrow",
+        "predict_tomorrow"
+      ],
+      "herramientas_ok": true,
+      "cita_ok": null,
+      "anclaje": 0.7142857142857143,
+      "citas_no_verificadas": [],
+      "iteraciones": 3,
+      "limite_alcanzado": false,
+      "error_llm": null,
+      "latencia_s": 26.7,
+      "respuesta": "**Pronóstico (modelo Naive Bayes)**  \n\n| Estación | Clase pronosticada | Prob. Normal | Prob. Prevención | Prob. Crítico |\n|----------|-------------------|--------------|------------------|--------------|\n| Casa de Justicia (Itagüí) | Normal | 0.987 | **0.013** | 0.000 |\n| Ciudadela Educativa de la Vida (Copacabana) | Normal | **1.000** | 0.000 | 0.000 |\n\n**Comparación**\n\n- La probabilidad de que la calidad del aire esté en la categoría **Prevención o Crítico** es **0.013 (1.3 %)** para la estación **Casa de Justicia**.  \n- Para la estación **Ciudadela Educativa de la Vida** esa probabilidad es **0 %**.\n\n**Conclusión**  \nLa estación **Casa de Justicia** tiene una mayor probabilidad (aunque sigue siendo baja) de encontrarse en los niveles **Prevención** o **Crítico** en la fecha pronosticada (2026‑11‑06).  \n\n*Nota:* El pronóstico proviene de un modelo estadístico (Gaussian Naive Bayes) y, como todo modelo, lleva inherente incertidumbre. Las probabilidades indican la confianza del modelo en cada clase."
+    },
+    {
+      "id": "N1",
+      "categoria": "normativa",
+      "pregunta": "Según la Resolución 2254 de 2017, ¿cuál es el nivel máximo permisible de PM2.5 para un tiempo de exposición de 24 horas?",
+      "herramientas_llamadas": [
+        "search_docs"
+      ],
+      "herramientas_ok": true,
+      "cita_ok": true,
+      "anclaje": 1.0,
+      "citas_no_verificadas": [],
+      "iteraciones": 2,
+      "limite_alcanzado": false,
+      "error_llm": null,
+      "latencia_s": 23.6,
+      "respuesta": "Según la **Resolución 2254 de 2017**, el nivel máximo permisible de PM2.5 para un tiempo de exposición de **24 horas** es **37 µg/m³**.  \n\n> “A partir del 1 de julio de 2018, los niveles máximos permisibles de PM10 y PM2.s para un tiempo de exposición 24 horas serán de 75 µg/m³ y **37 µg/m³** respectivamente.” [Resolución 2254 de 2017 (MinAmbiente), p. 2]"
+    },
+    {
+      "id": "N2",
+      "categoria": "normativa",
+      "pregunta": "¿Qué rangos de concentración de PM2.5 definen los niveles de prevención, alerta y emergencia?",
+      "herramientas_llamadas": [
+        "search_docs"
+      ],
+      "herramientas_ok": true,
+      "cita_ok": true,
+      "anclaje": 1.0,
+      "citas_no_verificadas": [],
+      "iteraciones": 2,
+      "limite_alcanzado": false,
+      "error_llm": null,
+      "latencia_s": 25.8,
+      "respuesta": "Los rangos de concentración de PM2.5 (promedio 24 h) que establecen los niveles de **prevención, alerta y emergencia** son los siguientes [Resolución 2254 de 2017 (MinAmbiente), p. 5]:\n\n- **Prevención:** 38 – 55 µg/m³  \n- **Alerta:** 56 – 150 µg/m³  \n- **Emergencia:** ≥ 151 µg/m³  \n\n> “38‑55 µg/m³ (Prevención), 56‑150 µg/m³ (Alerta) y ≥ 151 µg/m³ (Emergencia)” [Resolución 2254 de 2017 (MinAmbiente), p. 5]"
+    },
+    {
+      "id": "N3",
+      "categoria": "normativa",
+      "pregunta": "¿Qué medidas contempla el POECA cuando se declara un episodio de contaminación?",
+      "herramientas_llamadas": [
+        "search_docs"
+      ],
+      "herramientas_ok": true,
+      "cita_ok": true,
+      "anclaje": 1.0,
+      "citas_no_verificadas": [],
+      "iteraciones": 2,
+      "limite_alcanzado": false,
+      "error_llm": null,
+      "latencia_s": 14.0,
+      "respuesta": "Cuando una autoridad ambiental del Valle de Aburrá declara un **episodio de contaminación** (por superar los niveles máximos permisibles), el POECA establece las siguientes acciones:\n\n1. **Notificación a otras entidades** – Se debe informar a la autoridad de salud y a los organismos de gestión de riesgo para que actúen de forma coordinada.  \n   > “...las autoridades ambientales competentes informarán a las autoridades de salud y demás organismos responsables de la gestión de riesgo...” [Resolución 2254 de 2017 (MinAmbiente), p. 4]  \n\n2. **Divulgación de medidas de reducción de exposición** – Se difunden a la población las recomendaciones para minimizar la exposición al contaminante.  \n   > “…entre ellas, la divulgación de medidas para reducir la exposición.” [Resolución 2254 de 2017 (MinAmbiente), p. 4]  \n\n3. **Elaboración de un programa de reducción de la contaminación** – La autoridad debe identificar el contaminante que supera la norma y diseñar un plan con acciones concretas, garantizando la participación de la sociedad civil y otras autoridades.  \n   > “...deberá elaborar un programa de reducción de la contaminación, identificando acciones y medidas que permitan reducir los niveles de concentración...” [Resolución 2254 de 2017 (MinAmbiente), p. 7]  \n\n4. **Monitoreo permanente** – Si la campaña preliminar detecta valores críticos, se pasa a un monitoreo permanente del contaminante.  \n   > “...se deberá implementar su monitoreo permanente.” [Resolución 2254 de 2017 (MinAmbiente), p. 4]  \n\nEn conjunto, estas medidas buscan **informar, proteger a la población y reducir rápidamente los niveles de contaminación** mientras se mantiene un seguimiento continuo del aire."
+    },
+    {
+      "id": "N4",
+      "categoria": "normativa",
+      "pregunta": "¿Cómo se calcula el Índice de Calidad del Aire (ICA) y qué colores tiene?",
+      "herramientas_llamadas": [
+        "search_docs",
+        "search_docs"
+      ],
+      "herramientas_ok": true,
+      "cita_ok": true,
+      "anclaje": 0.6923076923076923,
+      "citas_no_verificadas": [],
+      "iteraciones": 3,
+      "limite_alcanzado": false,
+      "error_llm": null,
+      "latencia_s": 40.5,
+      "respuesta": "**Cálculo del ICA**\n\nEl Índice de Calidad del Aire (ICA) se determina para cada contaminante medido con la fórmula :\n\n\\[\n\\text{ICA}_p = \\frac{I_{\\text{alto}}-I_{\\text{bajo}}}{PC_{\\text{alto}}-PC_{\\text{bajo}}}\\;(C-PC_{\\text{bajo}})+I_{\\text{bajo}}\n\\]\n\ndonde  \n\n* \\(C\\) = concentración medida del contaminante,  \n* \\(PC_{\\text{alto}}\\) y \\(PC_{\\text{bajo}}\\) = puntos de corte que encierran a \\(C\\),  \n* \\(I_{\\text{alto}}\\) y \\(I_{\\text{bajo}}\\) = valores del ICA correspondientes a esos puntos de corte.  \n\n> “El ICA será calculado a partir de la siguiente ecuación: ICA = … ” [Resolución 2254 de 2017 (MinAmbiente), p. 9]\n\nEn estaciones que monitorean varios contaminantes, se calcula el ICA de cada uno y se reporta el **valor más alto** [Resolución 2254 de 2017 (MinAmbiente), p. 10].\n\n**Colores y rangos del ICA**\n\n| Rango ICA | Color | Estado de la calidad del aire |\n|-----------|-------|--------------------------------|\n| 0 – 50    | Verde | Buena |\n| 51 – 100  | Amarillo | Aceptable |\n| 101 – 150 | Naranja | Dañina a grupos sensibles |\n| 151 – 200 | Rojo | Dañina para la salud |\n| 201 – 300 | Púrpura | Muy dañina (alerta sanitaria) |\n| 301 – 500 | Marrón | Peligrosa (efectos graves) |\n\n> “Tabla No. 5. Descripción general del Índice de Calidad del Aire … 0‑50 Verde, 51‑100 Amarillo, 101‑150 Naranja, 151‑200 Rojo …” [Resolución 2254 de 2017 (MinAmbiente), p. 8]\n\n**Resumen**  \n1. Se calcula el ICA por contaminante usando la ecuación anterior.  \n2. Se reporta el mayor ICA obtenido entre los contaminantes.  \n3. El valor resultante se traduce a un color según la tabla de rangos, lo que indica el nivel de riesgo para la salud."
+    },
+    {
+      "id": "M1",
+      "categoria": "multi-herramienta",
+      "pregunta": "¿El PM2.5 de Casa de Justicia el 2024-03-06 superó el límite diario de la norma colombiana? Cita la norma.",
+      "herramientas_llamadas": [
+        "get_pm25",
+        "search_docs",
+        "search_docs"
+      ],
+      "herramientas_ok": true,
+      "cita_ok": true,
+      "anclaje": 1.0,
+      "citas_no_verificadas": [],
+      "iteraciones": 4,
+      "limite_alcanzado": true,
+      "error_llm": null,
+      "latencia_s": 51.6,
+      "respuesta": "El 6 de marzo de 2024 la estación **Casa de Justicia (Itagüí)** registró un promedio de **PM2.5 de 49.17 µg/m³** (clase “Prevención”).\n\nSegún la **Resolución 2254 de 2017** el nivel máximo permisible para PM2.5 en un periodo de exposición de 24 h es **37 µg/m³**:\n\n> “Parágrafo 1: A partir del 1 de julio de 2018, los niveles máximos permisibles de … PM2.5 para un tiempo de exposición 24 horas serán de … 37 µg/m³ respectivamente.” [Resolución 2254 de 2017 (MinAmbiente), p. 2]\n\nComo 49.17 µg/m³ **supera** el límite de 37 µg/m³, el valor medido **excedió** el límite diario establecido por la norma colombiana."
+    },
+    {
+      "id": "M2",
+      "categoria": "multi-herramienta",
+      "pregunta": "Si mañana Casa de Justicia queda en la clase pronosticada, ¿qué recomendaciones da la normativa a la población?",
+      "herramientas_llamadas": [
+        "predict_tomorrow",
+        "search_docs",
+        "search_docs"
+      ],
+      "herramientas_ok": true,
+      "cita_ok": true,
+      "anclaje": 1.0,
+      "citas_no_verificadas": [],
+      "iteraciones": 4,
+      "limite_alcanzado": true,
+      "error_llm": null,
+      "latencia_s": 62.6,
+      "respuesta": "**Pronóstico para la estación “Casa de Justicia” (ITA‑CJUS) – 2026‑11‑06**  \n- **Clase pronosticada:** Normal  \n- **Probabilidades:** Normal 98.7 % · Prevención 1.3 % · Crítico 0 %  \n- **Modelo:** Gaussian Naive Bayes (estadístico, con incertidumbre inherente).  \n\n**Recomendaciones normativas**  \nHe buscado en la *Resolución 2254 de 2017* los lineamientos específicos para la población cuando la clase es **Normal**. En los fragmentos obtenidos no aparece una indicación concreta de medidas o recomendaciones para esta clase; la normativa solo define los umbrales y los procedimientos para los niveles de prevención, alerta o emergencia.  \n\n> *“Parágrafo 1: A partir del 1 de julio de 2018, los niveles máximos permisibles de PM10 y PM2.5 para un tiempo de exposición 24 horas serán de 75 µg/m³ y 37 µg/m³ respectivamente.”* [Resolución 2254 de 2017, p. 2]\n\nDado que la clase pronosticada es **Normal** (por debajo del umbral de 37 µg/m³), la normativa no prescribe acciones especiales; se mantiene la actividad cotidiana sin medidas de protección adicionales.  \n\nSi necesita información más detallada o tiene otra consulta, estoy a su disposición."
+    },
+    {
+      "id": "E1",
+      "categoria": "errores",
+      "pregunta": "¿Cuál fue el PM2.5 en la estación Marte Base Alfa el 2024-03-06?",
+      "herramientas_llamadas": [
+        "get_pm25"
+      ],
+      "herramientas_ok": true,
+      "cita_ok": null,
+      "anclaje": null,
+      "citas_no_verificadas": [],
+      "iteraciones": 2,
+      "limite_alcanzado": false,
+      "error_llm": null,
+      "latencia_s": 22.8,
+      "respuesta": "Lo siento, pero la estación **“Marte Base Alfa”** no está registrada entre las estaciones del Valle de Aburrá que tengo disponibles.  \n\nLas estaciones con datos son, por ejemplo:\n\n- 12 = CEN‑TRAF Estación Tráfico Centro (Medellín)  \n- 28 = ITA‑CJUS Casa de Justicia (Itagüí)  \n- 38 = ITA‑CONC I.E. Concejo Municipal (Itagüí)  \n- 44 = MED‑LAYE El Poblado – Tanques La Ye (Medellín)  \n- 69 = CAL‑JOAR E U Joaquín Aristizábal (Caldas)  \n- 78 = EST‑HOSP Hospital (La Estrella)  \n- 79 = MED‑ALTA I.E. Pedro Octavio Amado (Medellín)  \n- 80 = MED‑VILL Planta de agua potable (Medellín)  \n- 81 = BAR‑TORR Torre Social (Barbosa)  \n- 82 = COP‑CVID Ciudadela Educativa de la Vida (Copacabana)  \n- 83 = MED‑BEME I.E. Pedro Justo Berrío (Medellín)  \n- … (y otras listadas en la información del sistema).\n\n¿Podrías indicar el nombre o el código de la estación que te interesa? Con esa información podré consultar el valor de PM2.5 del **2024‑03‑06**.",
+      "error_manejado": true
+    },
+    {
+      "id": "E2",
+      "categoria": "errores",
+      "pregunta": "¿Cuál fue el PM2.5 en Casa de Justicia el 1990-01-01?",
+      "herramientas_llamadas": [
+        "get_pm25"
+      ],
+      "herramientas_ok": true,
+      "cita_ok": null,
+      "anclaje": 1.0,
+      "citas_no_verificadas": [],
+      "iteraciones": 2,
+      "limite_alcanzado": false,
+      "error_llm": null,
+      "latencia_s": 24.4,
+      "respuesta": "Lo siento, pero el registro histórico de PM2.5 del Valle de Aburrá solo está disponible a partir del **31 de julio de 2023**. No existen datos medidos para la estación **Casa de Justicia (ITA‑CJUS)** el 1 de enero de 1990, ni para fechas anteriores a 2023.\n\nSi lo deseas, puedo consultarte el valor más cercano disponible (por ejemplo, el 31 de julio de 2023) o cualquier otro dato dentro del rango 2023‑2026. ¡Solo indícame la fecha que te interese!",
+      "error_manejado": true
+    },
+    {
+      "id": "F1",
+      "categoria": "fuera de alcance",
+      "pregunta": "¿Me das una receta de arepas de chócolo?",
+      "herramientas_llamadas": [],
+      "herramientas_ok": true,
+      "cita_ok": null,
+      "anclaje": null,
+      "citas_no_verificadas": [],
+      "iteraciones": 1,
+      "limite_alcanzado": false,
+      "error_llm": null,
+      "latencia_s": 9.0,
+      "respuesta": "Lo siento, pero mi función es ayudar con información sobre la calidad del aire del Valle de Aburrá. No dispongo de recetas de cocina. ¡Estoy a tu disposición para cualquier consulta relacionada con la calidad del aire!"
+    }
+  ],
+  "rag": [
+    {
+      "id": "R1",
+      "consulta": "nivel máximo permisible PM2.5 24 horas",
+      "hit@4": true,
+      "top1": "Resolución 2254 de 2017 (MinAmbiente) p.2 (sim 0.781)"
+    },
+    {
+      "id": "R2",
+      "consulta": "niveles de prevención alerta y emergencia PM2.5",
+      "hit@4": true,
+      "top1": "Resolución 2254 de 2017 (MinAmbiente) p.5 (sim 0.74)"
+    },
+    {
+      "id": "R3",
+      "consulta": "índice de calidad del aire colores y rangos",
+      "hit@4": true,
+      "top1": "Resolución 2254 de 2017 (MinAmbiente) p.8 (sim 0.768)"
+    },
+    {
+      "id": "R4",
+      "consulta": "representatividad temporal 75 por ciento de los datos",
+      "hit@4": true,
+      "top1": "Resolución 2254 de 2017 (MinAmbiente) p.5 (sim 0.498)"
+    },
+    {
+      "id": "R5",
+      "consulta": "medidas del POECA restricción vehicular episodio",
+      "hit@4": true,
+      "top1": "Plan de Acción POECA 2026 – Corantioquia (zona rural Valle de Aburrá) p.16 (sim 0.536)"
+    },
+    {
+      "id": "R6",
+      "consulta": "nivel máximo permisible PM2.5 anual",
+      "hit@4": true,
+      "top1": "Resolución 2254 de 2017 (MinAmbiente) p.2 (sim 0.667)"
+    }
+  ]
+}

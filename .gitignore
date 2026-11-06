@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+.env
+
+# Artefactos regenerables con `python pipeline.py`
+data/processed/
+models/artifacts/
+rag/chroma_db/
+
+# El Plan B (data/raw/) y los PDF de rag/docs/ SÍ se versionan.
