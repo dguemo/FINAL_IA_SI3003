@@ -18,6 +18,48 @@ Open-Meteo ───┼─> data/raw (Plan B) ─> Parquet ─> DuckDB          
 PDF normativa ┴─> PyMuPDF ─> ChromaDB ──────────────> search_docs ─────┘   (Groq / NIM)
 ```
 
+**Equipo:** David Guerra Morales, Eder Ceballos Quiroz · Profesor: Jorge Iván Padilla Buriticá ·
+Idea elegida: 3.1 *Agente de calidad del aire del Valle de Aburrá*.
+
+---
+
+## Dónde está cada parte solicitada en la guía
+
+### Requisitos obligatorios (sección 2 de la guía)
+
+| # | Requisito | Dónde está en el repositorio |
+|---|---|---|
+| 1 | **Datos reales** con fuente identificada, documentada y citada, y **plan B** | Fuentes y URLs: sección [Datos](#datos) de este README. Descarga: [`data/download_siata.py`](data/download_siata.py). **Plan B** (históricos descargados, versionados): [`data/raw/`](data/raw/) y [`data/raw/README.md`](data/raw/README.md). Limpieza: [`data/clean.py`](data/clean.py). Consultas DuckDB: [`data/db.py`](data/db.py) |
+| 2 | **Modelo de la Parte 1 implementado por el equipo** con métrica frente a línea base | Gaussian Naive Bayes desde cero (solo NumPy): [`models/naive_bayes.py`](models/naive_bayes.py). Líneas base (Persistencia, Clase Mayoritaria): [`models/baselines.py`](models/baselines.py). Atributos: [`models/features.py`](models/features.py). Entrenamiento y evaluación: [`models/train.py`](models/train.py), [`models/evaluate.py`](models/evaluate.py). **Resultados:** [`evaluation/results/model_report.md`](evaluation/results/model_report.md) |
+| 3 | **Agente LLM con RAG** y **≥ 2 herramientas** | Loop agéntico manual (T_max = 4, errores como observación, verificador de citas): [`agent/loop.py`](agent/loop.py). **3 herramientas** `get_pm25`, `predict_tomorrow`, `search_docs`: [`agent/tools.py`](agent/tools.py). Prompt: [`agent/prompts.py`](agent/prompts.py). Cliente Groq/NIM: [`agent/llm_client.py`](agent/llm_client.py). RAG (PyMuPDF + embeddings + ChromaDB): [`rag/ingest.py`](rag/ingest.py), [`rag/retriever.py`](rag/retriever.py). Corpus: [`rag/docs/`](rag/docs/) |
+| 4 | **≥ 2 visualizaciones** significativas | [`app.py`](app.py): mapa de estaciones (sección "Visualización 1") y serie de tiempo de PM2.5 con bandas por clase ("Visualización 2"); además, barras de probabilidad del pronóstico y tabla de desempeño del modelo |
+| 5 | **Interacción**: seleccionar parámetros y conversar con el agente | [`app.py`](app.py): barra lateral (estaciones, rango de fechas, mapa con/sin conexión) y chat con el agente al final de la página. El chat recibe como contexto la estación y las fechas elegidas |
+| 6 | **Funcionalidad reproducible** siguiendo el README | [Guía rápida](#guía-rápida-5-pasos) de este README. Orquestador: [`pipeline.py`](pipeline.py) (`--offline` usa el Plan B). Pruebas automáticas: [`tests/`](tests/) |
+| 7 | **Repositorio** con código, README, `requirements.txt` y datos o instrucciones | Este README, [`requirements.txt`](requirements.txt), [`.env.example`](.env.example), datos en [`data/raw/`](data/raw/) |
+| 8 | **Declaración de uso de IA generativa** | [`docs/declaracion_uso_ia.md`](docs/declaracion_uso_ia.md) |
+
+### Entregables (sección 5 de la guía)
+
+| # | Entregable | Dónde está |
+|---|---|---|
+| 1 | Repositorio con código, app corriendo desde el README e instrucciones para reproducir resultados | Este repositorio. Reproducir resultados: [Comandos adicionales](#comandos-adicionales) |
+| 2 | Informe breve (máx. 4 páginas): problema, datos, método Parte 1, agente y RAG, resultados y limitaciones | [`docs/informe_tecnico.md`](docs/informe_tecnico.md) |
+| 3 | Demostración funcional del dashboard | `streamlit run app.py` (paso 5 de la guía rápida) |
+| 4 | **Evaluación del agente** con 10–15 preguntas, indicando si llamó la herramienta correcta y si citó la fuente | Banco de **14 preguntas**: [`evaluation/questions.json`](evaluation/questions.json). Script: [`evaluation/eval_agent.py`](evaluation/eval_agent.py). **Resultados por pregunta** (columnas "Herr. OK" y "Cita OK"): [`evaluation/results/agent_eval.md`](evaluation/results/agent_eval.md); detalle con respuestas completas: [`evaluation/results/agent_eval.json`](evaluation/results/agent_eval.json) |
+| 5 | Declaración de uso de IA generativa | [`docs/declaracion_uso_ia.md`](docs/declaracion_uso_ia.md) |
+
+### Rúbrica de evaluación (sección 6 de la guía)
+
+| Criterio (peso) | Evidencia en el repositorio |
+|---|---|
+| Técnica de la Parte 1: implementación propia, corrección y métrica frente a línea base (20 %) | [`models/naive_bayes.py`](models/naive_bayes.py) (derivación matemática en el docstring), pruebas de corrección contra la regla de Bayes calculada a mano en [`tests/test_naive_bayes.py`](tests/test_naive_bayes.py), comparación con líneas base en [`evaluation/results/model_report.md`](evaluation/results/model_report.md) |
+| Agente LLM: loop, RAG, ≥ 2 herramientas, manejo de errores y citas (20 %) | [`agent/loop.py`](agent/loop.py), [`agent/tools.py`](agent/tools.py), [`rag/`](rag/); manejo de errores y citas probado en [`tests/test_agent.py`](tests/test_agent.py) |
+| Dashboard: visualización clara y significativa (10 %) | [`app.py`](app.py) |
+| Interacción del usuario y funcionalidad (15 %) | [`app.py`](app.py) + [Guía rápida](#guía-rápida-5-pasos) |
+| Rigor experimental: evaluación del modelo y del agente, limitaciones (15 %) | [`evaluation/results/model_report.md`](evaluation/results/model_report.md) (CV por bloques temporales, holdout, IC bootstrap 95 %, McNemar, ablación), [`evaluation/results/agent_eval.md`](evaluation/results/agent_eval.md), limitaciones en la sección 7 de [`docs/informe_tecnico.md`](docs/informe_tecnico.md) |
+| Reproducibilidad: repositorio, README, dependencias, uso responsable de datos (10 %) | Este README, [`requirements.txt`](requirements.txt), [`pipeline.py`](pipeline.py), [Uso responsable de datos y alcance](#uso-responsable-de-datos-y-alcance) |
+| Declaración y uso ético de IA generativa (5 %) | [`docs/declaracion_uso_ia.md`](docs/declaracion_uso_ia.md) |
+
 ---
 
 ## Guía rápida (5 pasos)
@@ -159,12 +201,12 @@ los datos que ya están en `data/raw/` (Plan B).
 
 ## Datos
 
-| Fuente | Contenido | Uso |
-|---|---|---|
-| SIATA `EntregaData1` | PM2.5 horario por estación (histórico 2023-07 → 2024-07) con bandera de calidad | Entrenamiento |
-| Geoportal SIATA / AMVA | Catálogo oficial de estaciones (coordenadas, municipio), últimas 72 h y últimos 30 promedios diarios oficiales | Mapa, datos recientes y pronóstico |
-| Open-Meteo (ERA5) | Lluvia, viento, humedad, temperatura y altura de la capa límite (diario) | Atributos meteorológicos |
-| PDF en `rag/docs/` | Resolución 2254 de 2017 (MinAmbiente); Plan de Acción POECA 2026 (Corantioquia) | RAG |
+| Fuente | Contenido | Uso | Acceso |
+|---|---|---|---|
+| SIATA `EntregaData1` | PM2.5 horario por estación (histórico 2023-07 → 2024-07) con bandera de calidad | Entrenamiento | `https://siata.gov.co/EntregaData1/Datos_SIATA_Aire_pm25.json` |
+| Geoportal SIATA / AMVA | Catálogo oficial de estaciones (coordenadas, municipio), últimas 72 h y últimos 30 promedios diarios oficiales | Mapa, datos recientes y pronóstico | `https://geoportal.siata.gov.co/fastgeoapi/geodata/` (rutas exactas en [`config.py`](config.py)) |
+| Open-Meteo (ERA5) | Lluvia, viento, humedad, temperatura y altura de la capa límite (diario) | Atributos meteorológicos | `https://archive-api.open-meteo.com/v1/archive` y `https://api.open-meteo.com/v1/forecast` |
+| PDF en `rag/docs/` | Resolución 2254 de 2017 (MinAmbiente); Plan de Acción POECA 2026 (Corantioquia, F-PGI-13) | RAG | Ver [`rag/docs/README.md`](rag/docs/README.md) |
 
 **Plan B.** Cada descarga se fusiona en `data/raw/` (CSV versionados). Si una fuente falla, el
 pipeline sigue con lo que hay en disco, y `build_dataset` solo lee `data/raw/`.
@@ -175,6 +217,19 @@ valores negativos o mayores de 500 µg/m³. Un día solo es válido con al menos
 
 Créditos: datos de **SIATA – Área Metropolitana del Valle de Aburrá** y **Open-Meteo**.
 Normativa del **Ministerio de Ambiente y Desarrollo Sostenible** y de **Corantioquia**.
+
+## Uso responsable de datos y alcance
+
+- **Datos públicos y agregados:** mediciones ambientales por estación; no se procesan datos
+  personales. Las fuentes se acreditan aquí y en el dashboard.
+- **Consultas moderadas:** el descargador llama una vez a cada endpoint por estación, con
+  reintentos con espera y un `User-Agent` identificable ([`data/download_siata.py`](data/download_siata.py)).
+- **Secretos fuera del repositorio:** la clave del LLM va en `.env`, que está en `.gitignore`.
+- **Alcance:** es un proyecto académico. **El pronóstico no es un pronóstico oficial de SIATA
+  ni constituye consejo médico, legal o de seguridad.** Para decisiones, consulte los canales
+  oficiales de SIATA y del Área Metropolitana del Valle de Aburrá.
+- **Privacidad del chat:** las preguntas se envían al proveedor del LLM (Groq o NVIDIA NIM)
+  para generar la respuesta.
 
 ## Estructura
 
