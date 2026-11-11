@@ -7,7 +7,8 @@ Proyecto final de **SI3003 – Inteligencia Artificial (EAFIT)**. Es un MVP que 
    compara contra las líneas base de Persistencia y Clase Mayoritaria.
 2. **Agente LLM con RAG**: un loop manual de *tool calling* (máximo T_max = 4 iteraciones) con
    tres herramientas: `get_pm25`, `predict_tomorrow` y `search_docs`. Las búsquedas se hacen
-   sobre la Resolución 2254 de 2017 y el Plan de Acción POECA 2026, con citas de fuente y página.
+   sobre la Resolución 2254 de 2017 y el Plan de Acción POECA 2026 para la **zona rural** del
+   Valle de Aburrá (Corantioquia), con citas de fuente y página.
 3. **Dashboard Streamlit**: mapa de estaciones, serie de tiempo de PM2.5, pronóstico y chat
    con el agente, todo en una sola página.
 
@@ -206,7 +207,14 @@ los datos que ya están en `data/raw/` (Plan B).
 | SIATA `EntregaData1` | PM2.5 horario por estación (histórico 2023-07 → 2024-07) con bandera de calidad | Entrenamiento | `https://siata.gov.co/EntregaData1/Datos_SIATA_Aire_pm25.json` |
 | Geoportal SIATA / AMVA | Catálogo oficial de estaciones (coordenadas, municipio), últimas 72 h y últimos 30 promedios diarios oficiales | Mapa, datos recientes y pronóstico | `https://geoportal.siata.gov.co/fastgeoapi/geodata/` (rutas exactas en [`config.py`](config.py)) |
 | Open-Meteo (ERA5) | Lluvia, viento, humedad, temperatura y altura de la capa límite (diario) | Atributos meteorológicos | `https://archive-api.open-meteo.com/v1/archive` y `https://api.open-meteo.com/v1/forecast` |
-| PDF en `rag/docs/` | Resolución 2254 de 2017 (MinAmbiente); Plan de Acción POECA 2026 (Corantioquia, F-PGI-13) | RAG | Ver [`rag/docs/README.md`](rag/docs/README.md) |
+| PDF en `rag/docs/` | Resolución 2254 de 2017 (MinAmbiente); Plan de Acción POECA 2026 para la zona rural (Corantioquia, F-PGI-13) | RAG | Ver [`rag/docs/README.md`](rag/docs/README.md) |
+
+> **Aclaración sobre el POECA.** El documento POECA del corpus es el *Plan de Acción para la
+> Implementación de Medidas del POECA en la **Zona Rural** de los Municipios del Valle de Aburrá*,
+> jurisdicción de Corantioquia (F-PGI-13, 2026). **No se encontró ni se tuvo acceso al POECA de
+> la zona urbana del Valle de Aburrá** (Área Metropolitana del Valle de Aburrá). Por eso, las
+> respuestas del agente sobre medidas del POECA se refieren a la zona rural; las medidas
+> urbanas, como la restricción vehicular, no están cubiertas por el corpus.
 
 **Plan B.** Cada descarga se fusiona en `data/raw/` (CSV versionados). Si una fuente falla, el
 pipeline sigue con lo que hay en disco, y `build_dataset` solo lee `data/raw/`.
